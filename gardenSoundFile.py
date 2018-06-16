@@ -12,39 +12,39 @@ import json
 import shutil
 import gardenTrack
 import time
+import specs
 
 debug=True
 listMutex=threading.Lock()
 maxEvents = 2
-
-
-orderFile = "order.txt"
-fileCollections = []
+collections = []
 currentCollection = ""
-rootDir = os.environ['GARDEN_ROOT_DIR']
-collectionOrder = {}
+timeout = 0
+rootDir = ""
 
-orderPath = rootDir+"/"+orderFile
-if not os.path.exists(orderPath):
-  raise Exception(orderPath+" does not exist")
-  
-with open(orderPath) as f:
-  collectionOrder = json.load(f)
-    
-if 'dirs' not in collectionOrder:
-  raise Exception("no dirs in order file")
-for d in collectionOrder['dirs']:
-  if 'time' not in d:
-    raise Exception("no time spec in "+d)
-  if 'name' not in d:
-    raise Exception("no name spec in "+d) 
-    
-  
-if debug: print collectionOrder
-currentCollection = collectionOrder['dirs'].pop(0)
-if debug: print "currentCollection:",currentCollection
 
-timeout = time.time() + currentCollection['time']
+def setup():
+  global currentCollection
+  global collections
+  global timeout
+  global rootDir
+  currentCollection = ""
+  rootDir = os.environ['GARDEN_ROOT_DIR']
+    
+  if 'dirs' not in specs.specs:
+    raise Exception("no dirs in specs")
+  for d in specs.specs['dirs']:
+    if 'time' not in d:
+      raise Exception("no time spec in "+d)
+    if 'name' not in d:
+      raise Exception("no name spec in "+d) 
+    collections.append(d)
+  
+  if debug: print collections
+  currentCollection = collections.pop(0)
+  if debug: print "currentCollection:",currentCollection
+
+  timeout = time.time() + currentCollection['time']
 
 
 def setMaxEvents(m):
@@ -63,11 +63,10 @@ def testBumpCollection():
   #if debug: print "testBumpCollection time",time.time(),"timeout",timeout
   if time.time() > timeout:
     if debug: print "timeout passed"
-    if len(collectionOrder['dirs']) == 0:
+    if len(collections) == 0:
       return False
     
-    
-    currentCollection = collectionOrder['dirs'].pop(0)
+    currentCollection = collections.pop(0)
     if debug: print "new current collection",currentCollection
     timeout = time.time() + currentCollection['time']
     if debug: print "new timeout",timeout

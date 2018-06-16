@@ -1,0 +1,11 @@
+{ 
+  "type" : "async",
+  "dirs" : [ 
+  {"name" : "walk","time" : 40 }
+  ,{"name" : "tudor","time" : 90 }
+  ,{"name" : "justMore","time" : 90}
+  ,{"name" : "just","time" : 40}
+  ,{"name" : "walk","time" : 40 }
+  ]
+}
+  

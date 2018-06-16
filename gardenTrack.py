@@ -18,9 +18,7 @@ eventMax=10000
 debug=False
 numEvents=0
 
-def setup():
-  pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
-  pygame.init()
+
   
 def speedx(sound, factor):
   rval = None
