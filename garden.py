@@ -12,7 +12,7 @@ import time
 import gardenPlayer
 import specs
 
-numThreads = 5
+
 
 def usage():
   print "usage:",sys.argv[0]," spec file"
@@ -30,7 +30,7 @@ if __name__ == '__main__':
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
   gardenSoundFile.setup()
-  gardenTrack.changeNumGardenThreads(numThreads)
+  gardenTrack.changeNumGardenThreads(specs.numThreads())
   threads = gardenTrack.eventThreads
   pt = gardenPlayer.playerThread(threads)
   pt.setDaemon(True)

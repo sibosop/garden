@@ -6,16 +6,12 @@ import random
 import time
 import numpy as np
 import gardenSoundFile
+import specs
 
 debug = False
 currentSound = {'file':""}
-soundMaxVol = .3
-soundMinVol = 0.1
-speedChangeMax = 4.0
-speedChangeMin = .25
-eventMin=100
-eventMax=10000
-debug=False
+
+debug=True
 numEvents=0
 
 
@@ -58,43 +54,33 @@ def playFile(path):
   playSound(sound,.5,.5)
 
 def doJpent():
+  speedChangeMax = specs.specs['speedChangeMax']
+  speedChangeMin = specs.specs['speedChangeMin']
   rval = ((speedChangeMax-speedChangeMin) 
                         * random.random()) + speedChangeMin
   if debug: print("doJpent")
   return rval
 
-tunings = {
-  'jpent' : [1.0,32.0/27.0,4.0/3.0,3.0/2.0,16.0/9.0]
-  ,'bfarabi' : [1.0,9.0/8.0,45.0/32.0,131.0/90.0,3.0/2.0,15.0/8.0,31.0/16.0]
-  ,'sheng' : [1.0,8.0/7.0,6.0/5.0,5.0/4.0,3.0/2.0,5.0/3.0]
-  ,'joy' : [1.0,9.0/8.0,5.0/4.0,3.0/2.0,5.0/3.0,15.0/8.0]
-}
+
 
 octaves = [0.25,0.5,1.0,2.0,4.0]
 
-def getFactor(path):
+def getFactor(cs):
+  if debug: print "getFactor on:",cs
   rval = 1.0
-  try:
-    pos = path.find("__");
-    
-    if pos == -1:
-      raise NameError
-    
-    epos = path.find(".",pos)
-    
-    if epos == -1:
-      raise NameError
-
-    tuning = path[pos+2:epos]
-    if debug: print("tuning:"+tuning);
-    if tuning not in tunings:
-      if debug: print("bad tuning:"+tuning)
-      raise NameError
-    rval = random.choice(tunings[tuning]) * random.choice(octaves)
-  except NameError as exp:
-    if debug: print("default tuning for path:"+path)
+  if 'tuning' in cs.keys() and cs['tuning'] in specs.tunings.keys():
+    ts = specs.tunings[cs['tuning']]
+    tc = random.choice(ts)
+    oc = random.choice(octaves)
+    if debug: print "tc:",tc,"oc:",oc
+    rval = tc * oc
+  else:
+    if debug: print "default tuning for cs:",cs
+    speedChangeMax = specs.specs['speedChangeMax']
+    speedChangeMin = specs.specs['speedChangeMin']
     rval = ((speedChangeMax-speedChangeMin) * random.random()) + speedChangeMin
-  if debug: print("factor:"+str(rval))
+    
+  if debug: print "factor:",rval
   return rval
   
   
@@ -153,30 +139,31 @@ class gardenTrack(threading.Thread):
     
   def run(self):
     print("Garden Track:"+self.name)
+    rootDir = os.environ['GARDEN_ROOT_DIR']
     while self.isRunning():
-      
       try:
         cs = self.getCurrentSound()
         file=""
-        file = cs['file']
+        file = cs['name']
         if file == "":
           if debug: print(self.name+": waiting for currentSoundFile");
           time.sleep(2)
           continue
-        if debug: print self.name,": playing:",file
-        sound = pygame.mixer.Sound(file=file)
-        factor = getFactor(file);
+        path = rootDir + '/' + file
+        if debug: print self.name,": playing:",path
+        sound = pygame.mixer.Sound(file=path)
+        factor = getFactor(cs);
         nsound = speedx(sound,factor)
         if nsound is not None:
           sound = nsound
-        v = random.uniform(soundMinVol,soundMaxVol);
+        v = random.uniform(specs.specs['soundMinVol'],specs.specs['soundMaxVol']);
         lVol = v * self.lRatio
         rVol = v * self.rRatio
         if debug: print self.name,"lVol",lVol,"rVol",rVol,"lRatio",self.lRatio,"rRatio",self.rRatio
         playSound(sound,lVol,rVol)
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
-      nt = random.randint(eventMin,eventMax)/1000.0;
+      nt = random.randint(specs.specs['eventMin'],specs.specs['eventMax'])/1000.0;
       if debug: print(self.name+": next play:"+str(nt))
       time.sleep(nt)
       if debug: print(self.name+":back from sleep")

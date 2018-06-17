@@ -29,33 +29,17 @@ def setup():
   global timeout
   global rootDir
   currentCollection = ""
-  rootDir = os.environ['GARDEN_ROOT_DIR']
+  
     
-  if 'dirs' not in specs.specs:
-    raise Exception("no dirs in specs")
-  for d in specs.specs['dirs']:
-    if 'time' not in d:
-      raise Exception("no time spec in "+d)
-    if 'name' not in d:
-      raise Exception("no name spec in "+d) 
-    collections.append(d)
+  for d in specs.specs['collections']:
+      collections.append(d)
   
   if debug: print collections
   currentCollection = collections.pop(0)
-  if debug: print "currentCollection:",currentCollection
+  if debug: print "currentCollection:",currentCollection['name']
 
   timeout = time.time() + currentCollection['time']
 
-
-def setMaxEvents(m):
-  global maxEvents
-  test = int(m)
-  if test > 0:
-    maxEvents = test
-  if debug: print("setMaxEvents maxEvents:"+str(maxEvents))
-  status = { 'status' : 'ok' }
-  rval = json.dumps(status)
-  return rval 
       
 def testBumpCollection():
   global timeout
@@ -67,7 +51,7 @@ def testBumpCollection():
       return False
     
     currentCollection = collections.pop(0)
-    if debug: print "new current collection",currentCollection
+    if debug: print "new current collection",currentCollection['name']
     timeout = time.time() + currentCollection['time']
     if debug: print "new timeout",timeout
   return True
@@ -81,20 +65,18 @@ def getSoundEntry():
   global currentCollection
   global fileCollections
   
-  colDir = rootDir + "/" + currentCollection['name']
-  if debug: print "colDir:",colDir
-  keys = glob.glob(colDir+"/*.wav")
-  
-  if debug: print "currentCollection:",currentCollection,"number of keys:",len(keys)
+  keys = specs.fileList(currentCollection['list'])
+  if debug: print "collection-list",currentCollection['name'],"-",currentCollection['list'],
+  "number of keys:",len(keys)
   done = False
   choices = 0
-  numChoices = maxEvents
-  if debug: print "collection:",currentCollection," number of choices:",numChoices," max Events:",maxEvents
+  numChoices = specs.maxEvents()
+  if debug: print "collection:",currentCollection['name']," number of choices:",numChoices," max Events:",maxEvents
   rval = []
   while len(rval) < numChoices:
     choice = random.randint(0,len(keys)-1)
     if debug: print "rval;",rval
-    if keys[choice] in rval:
+    if keys[choice]['name'] in rval:
       continue
     rval.append(keys[choice])
   return rval
