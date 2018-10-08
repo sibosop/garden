@@ -7,12 +7,13 @@ import gardenSoundFile
 import sys
 import random
 import pygame
+import json
 
 import time
 import gardenPlayer
 import specs
 
-
+baseTime = time.time()
 
 def usage():
   print "usage:",sys.argv[0]," spec file"
@@ -24,6 +25,7 @@ if __name__ == '__main__':
   os.environ['DISPLAY']=":0.0"
   os.chdir(os.path.dirname(sys.argv[0]))
   print(pname+" at "+datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))  
+  
   if len (sys.argv) < 2:
     usage()
   specs.setup(sys.argv[1])
@@ -47,5 +49,11 @@ if __name__ == '__main__':
     if n == 0:
       break;
     time.sleep(1)
+    
+  for t in threads:
+    desc = json.dumps(t.playList)
+    f = open(t.name+".json","w")
+    f.write(desc)
+    f.close()
   print "garden done"
 

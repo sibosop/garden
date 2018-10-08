@@ -7,6 +7,7 @@ import time
 import numpy as np
 import gardenSoundFile
 import specs
+import garden
 
 debug = False
 currentSound = {'file':""}
@@ -88,6 +89,8 @@ class gardenTrack(threading.Thread):
   def __init__(self,c):
     global numEvents
     super(gardenTrack,self).__init__()
+    self.playList = {}
+    self.playList['events'] = []
     self.runState = True
     self.name = "GardenTrack-"+str(c)
     self.currentSound={'file' : ""}
@@ -160,6 +163,12 @@ class gardenTrack(threading.Thread):
         lVol = v * self.lRatio
         rVol = v * self.rRatio
         if debug: print self.name,"lVol",lVol,"rVol",rVol,"lRatio",self.lRatio,"rRatio",self.rRatio
+        event = {}
+        event['factor'] = factor
+        event['file'] = file
+        print "garden baseTime",garden.baseTime
+        event['time'] = time.time() - garden.baseTime
+        self.playList['events'].append(event)
         playSound(sound,lVol,rVol)
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
