@@ -6,7 +6,7 @@
       ,"sheng" : ["1/1","8/7","6/5","5/4","3/2","5/3"]
       ,"joy" : ["1/1","9/8","5/4","3/2","5/3","15/8"]
     }
-  ,"numThreads" : 5
+  ,"numThreads" : 8
   ,"minChange" : 5
   ,"maxChange" : 15
   ,"maxEvents" : 2
