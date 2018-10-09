@@ -55,55 +55,43 @@
       ]
   ,"justMoreList" : [
         {"name" : "008tweetverb.wav" }
-        ,{"name" : "a1.wav" }
-        ,{"name" : "a4.wav" }
         ,{"name" : "b1.wav" }
         ,{"name" : "bach6.wav" }
-        ,{"name" : "celeste__joy.wav" , "tuning" : "joy" }
         ,{"name" : "clanky__joy.wav" , "tuning" : "joy"}
-        ,{"name" : "delay__joy.wav" , "tuning" : "joy"}
         ,{"name" : "dowland10.wav" }
         ,{"name" : "gen1__joy.wav" , "tuning" : "joy"}
-        ,{"name" : "harp__joy.wav" , "tuning" : "joy"}
         ,{"name" : "pulser6.wav" }
+        ,{"name" : "viol__joy.wav", "tuning" : "joy" }
         ,{"name" : "rancan__joy.wav" , "tuning" : "joy"}
-        ,{"name" : "tudor26.wav" }
-        ,{"name" : "tudor9.wav" }
       ]
   ,"justList" : [
         {"name" : "TwoP__joy.wav" , "tuning" : "joy"}
         ,{"name" : "TwoPluck__joy.wav" , "tuning" : "joy"}
-        ,{"name" : "celeste__joy.wav", "tuning" : "joy" }
         ,{"name" : "clanky__joy.wav", "tuning" : "joy" }
         ,{"name" : "delay__joy.wav" , "tuning" : "joy"}
         ,{"name" : "delay_harm__joy.wav", "tuning" : "joy" }
-        ,{"name" : "frog1.wav" }
         ,{"name" : "gen1__joy.wav", "tuning" : "joy" }
-        ,{"name" : "harp__joy.wav", "tuning" : "joy" }
-        ,{"name" : "p1__joy.wav", "tuning" : "joy" }
-        ,{"name" : "p2__joy.wav", "tuning" : "joy" }
-        ,{"name" : "p3__joy.wav", "tuning" : "joy" }
         ,{"name" : "viol__joy.wav", "tuning" : "joy" }
       ]
   ,"collections" : [
     {
       "name" : "walk"
-      ,"time" : 40
+      ,"time" : 50
       ,"list" : "walkList" 
     }
     ,{
       "name" : "tudor"
-      ,"time" : 90
+      ,"time" : 80
       ,"list" : "tudorList"
     }
     ,{
       "name" : "justMore"
-      ,"time" : 90
+      ,"time" : 70
       ,"list" : "justMoreList"
     }
     ,{
       "name" : "just"
-      ,"time" : 40
+      ,"time" : 60
       ,"list" : "justList"
     }
     ,{
