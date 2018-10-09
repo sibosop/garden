@@ -95,7 +95,8 @@ class gardenTrack(threading.Thread):
     self.name = "GardenTrack-"+str(c)
     self.currentSound={'file' : ""}
     self.currentDir = os.getcwd()
-    self.rRatio = float(c) / float(numEvents)
+    divs = 1.0 / float(numEvents-1)
+    self.rRatio = float(c-1) * divs
     self.lRatio = 1.0 - self.rRatio  
     if debug: print self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio
     

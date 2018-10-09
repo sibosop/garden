@@ -47,7 +47,10 @@ class Playback(threading.Thread):
     self.name = "Playback-"+str(c)
     self.currentDir = os.getcwd()
     self.specs = specs
-    if numEvents == 2:
+    if numEvents == 1:
+      self.lRatio = 1.0
+      self.rRatio = 0
+    elif numEvents == 2:
       if c == 1:
         self.lRatio = 1.0
         self.rRatio = 0
@@ -56,7 +59,8 @@ class Playback(threading.Thread):
         self.rRatio = 1.0
     else:
       print "numEvents %d thread number %d"%(numEvents,c)
-      self.rRatio = float(c) / float(numEvents)
+      div = 1.0 / float(numEvents-1)
+      self.rRatio = float(c-1) * div
       self.lRatio = 1.0 - self.rRatio  
     if debug: print self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio
     
@@ -65,9 +69,6 @@ class Playback(threading.Thread):
     for e in self.specs['events']:
       while e['time'] > (time.time() - baseTime):
         time.sleep(0)
-        if self.runState is False:
-          print "%s: aborting"%self.name
-          return
       path = rootDir + '/' + e['file']
       print "%s: playing %s"%(self.name,path)
       sound = pygame.mixer.Sound(file=path)
@@ -86,8 +87,6 @@ def waitForThreads():
     for t in threads:
       if t.isAlive():
         test.append(t)
-      else:
-        t.join()
     if len(test) == 0:
         break
     time.sleep(0)
@@ -109,6 +108,7 @@ if __name__ == '__main__':
     d = "%s/GardenTrack*json"%takesDir
     print "adding all voices from",d
     files = glob.glob(d)
+    print files
     for i in range(1,len(files)+1):
       voices.append(i)
   else:
@@ -134,6 +134,7 @@ if __name__ == '__main__':
       specs = json.load(f)
       f.close()
       t = Playback(count,specs)
+      t.setDaemon(True)
       count += 1 
       threads.append(t)
   for t in threads:
