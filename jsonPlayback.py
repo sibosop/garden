@@ -28,14 +28,10 @@ def playSound(sound,l,r):
   if eventChan is None:
     pygame.mixer.set_num_channels(pygame.mixer.get_num_channels()+1);
     eventChan=pygame.mixer.find_channel()
-  v = random.uniform(.3,.5);
-  lv = l % v
-  rv = r % v
-  print "lv %f rv %f"%(lv,rv)
   if numEvents == 1:
-    eventChan.set_volume(v)
+    eventChan.set_volume(l)
   else:
-    eventChan.set_volume(lv,rv)
+    eventChan.set_volume(l,r)
   eventChan.play(sound)
   eventChan.set_endevent()
   
@@ -76,7 +72,10 @@ class Playback(threading.Thread):
       nsound = gardenTrack.speedx(sound,factor)
       if nsound is not None:
         sound = nsound
-      playSound(sound,self.lRatio,self.rRatio)
+      v = e['vol']
+      l = v * self.lRatio
+      r = v * self.rRatio
+      playSound(sound,l,r)
     print "%s: exiting"%self.name
     
 def waitForThreads():
@@ -89,7 +88,7 @@ def waitForThreads():
         test.append(t)
     if len(test) == 0:
         break
-    time.sleep(0)
+    time.sleep(0.25)
   print "threads done"
     
     

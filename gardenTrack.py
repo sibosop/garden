@@ -165,6 +165,7 @@ class gardenTrack(threading.Thread):
         rVol = v * self.rRatio
         if debug: print self.name,"lVol",lVol,"rVol",rVol,"lRatio",self.lRatio,"rRatio",self.rRatio
         event = {}
+        event['vol'] = v
         event['factor'] = factor
         event['file'] = file
         print "garden baseTime",garden.baseTime
