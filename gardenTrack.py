@@ -15,7 +15,21 @@ currentSound = {'file':""}
 debug=True
 numEvents=0
 
+buffers = {}
 
+def makeBuffers():
+  rootDir = os.environ['GARDEN_ROOT_DIR']
+  for l in specs.specs['collections']:
+    if debug: print "l:",l
+    for f in specs.specs[l['list']]:
+      if debug: print "f:",f['name']
+      try:
+        path = rootDir + '/' + f['name']
+        buffer = pygame.mixer.Sound(file=path)
+        buffers[f['name']] = buffer
+      except Exception as e:
+        print "make Buffers:",e
+      
   
 def speedx(sound, factor):
   rval = None
@@ -143,7 +157,7 @@ class gardenTrack(threading.Thread):
     
   def run(self):
     print("Garden Track:"+self.name)
-    rootDir = os.environ['GARDEN_ROOT_DIR']
+    #rootDir = os.environ['GARDEN_ROOT_DIR']
     while self.isRunning():
       try:
         cs = self.getCurrentSound()
@@ -153,13 +167,16 @@ class gardenTrack(threading.Thread):
           if debug: print(self.name+": waiting for currentSoundFile");
           time.sleep(2)
           continue
-        path = rootDir + '/' + file
-        if debug: print self.name,": playing:",path
-        sound = pygame.mixer.Sound(file=path)
+        #path = rootDir + '/' + file
+        if debug: print self.name,": playing:",file
+        #sound = pygame.mixer.Sound(file=buffers[file])
         factor = getFactor(cs);
-        nsound = speedx(sound,factor)
+        sound = None
+        nsound = speedx(buffers[file],factor)
         if nsound is not None:
           sound = nsound
+        else:
+          sound = buffers[file]
         v = random.uniform(specs.specs['soundMinVol'],specs.specs['soundMaxVol']);
         lVol = v * self.lRatio
         rVol = v * self.rRatio

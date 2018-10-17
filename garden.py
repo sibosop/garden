@@ -14,10 +14,11 @@ import glob
 import time
 import gardenPlayer
 import specs
-
+debug = True
 baseTime = time.time()
 takesDir = ""
 
+      
 
 def usage():
   print "usage:",sys.argv[0]," spec file"
@@ -69,13 +70,13 @@ if __name__ == '__main__':
   print "using spec:",specFile
   specs.setup(specFile)
   if args.output:
-    makeTakesDir()
-    
+    makeTakesDir()   
   print "takesDir:",takesDir
   
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
   gardenSoundFile.setup()
+  gardenTrack.makeBuffers()
   gardenTrack.changeNumGardenThreads(specs.numThreads())
   threads = gardenTrack.eventThreads
   pt = gardenPlayer.playerThread(threads)
