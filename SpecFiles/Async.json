@@ -58,10 +58,8 @@
         ,{"name" : "b1.wav" }
         ,{"name" : "bach6.wav" }
         ,{"name" : "clanky__joy.wav" , "tuning" : "joy"}
-        ,{"name" : "dowland10.wav" }
         ,{"name" : "gen1__joy.wav" , "tuning" : "joy"}
         ,{"name" : "pulser6.wav" }
-        ,{"name" : "viol__joy.wav", "tuning" : "joy" }
         ,{"name" : "rancan__joy.wav" , "tuning" : "joy"}
       ]
   ,"justList" : [

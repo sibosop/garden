@@ -93,7 +93,7 @@ class gardenTrack(threading.Thread):
     self.playList['events'] = []
     self.runState = True
     self.name = "GardenTrack-"+str(c)
-    self.currentSound={'file' : ""}
+    self.currentSound={'name' : ""}
     self.currentDir = os.getcwd()
     divs = 1.0 / float(numEvents-1)
     self.rRatio = float(c-1) * divs
