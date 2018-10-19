@@ -12,7 +12,7 @@ import gardenSoundFile
 import pygame
 import specs
 
-debug = True
+debug = False
 
 playerMutex=threading.Lock()
 
@@ -58,7 +58,7 @@ class playerThread(threading.Thread):
           stime = time.time() + offset
           if debug: print "next change:",offset
           n = pygame.mixer.get_busy()
-          print "number busy channels",n
+          if debug: print "number busy channels",n
         time.sleep(1)
       except Exception as e:
         print("player error: "+repr(e))

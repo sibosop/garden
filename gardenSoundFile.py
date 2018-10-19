@@ -14,7 +14,7 @@ import gardenTrack
 import time
 import specs
 
-debug=True
+debug=False
 listMutex=threading.Lock()
 maxEvents = 2
 collections = []

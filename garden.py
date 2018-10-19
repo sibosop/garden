@@ -14,10 +14,11 @@ import glob
 import time
 import gardenPlayer
 import specs
+import waiter
+
 debug = True
 baseTime = time.time()
 takesDir = ""
-
       
 
 def usage():
@@ -54,9 +55,15 @@ def makeTakesDir():
     
     
       
+waiterThread = waiter.waiterThread()
+waiterThread.setDaemon(True)
   
+  
+def getWaiter():
+  return waiterThread
 
 if __name__ == '__main__':
+  
   random.seed()
   pname = sys.argv[0]
   os.environ['DISPLAY']=":0.0"
@@ -75,10 +82,15 @@ if __name__ == '__main__':
   
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
+  waiterThread.start()
+  print "waiterThread %s"%(waiterThread)
+  
   gardenSoundFile.setup()
   gardenTrack.makeBuffers()
+  
   gardenTrack.changeNumGardenThreads(specs.numThreads())
   threads = gardenTrack.eventThreads
+  
   pt = gardenPlayer.playerThread(threads)
   pt.setDaemon(True)
   pt.start()
@@ -86,7 +98,7 @@ if __name__ == '__main__':
     time.sleep(1)
     if pt.done:
       break
-      
+  
   print "waiting for channels to be done"
   while True:
     n = pygame.mixer.get_busy()

@@ -16,6 +16,8 @@
   ,"speedChangeMin" : 0.25
   ,"eventMin" : 100
   ,"eventMax" : 10000
+  ,"waitQuant" : 0.01
+  ,"waitTimesPulse" : [10,40]
   ,"walkList" : [
       {"name" : "65verb.wav"}
       ,{"name" : "cello1.wav" }	

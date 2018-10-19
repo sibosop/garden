@@ -8,11 +8,11 @@ import numpy as np
 import gardenSoundFile
 import specs
 import garden
+import waiter
 
 debug = False
 currentSound = {'file':""}
 
-debug=True
 numEvents=0
 
 buffers = {}
@@ -109,9 +109,13 @@ class gardenTrack(threading.Thread):
     self.name = "GardenTrack-"+str(c)
     self.currentSound={'name' : ""}
     self.currentDir = os.getcwd()
-    divs = 1.0 / float(numEvents-1)
-    self.rRatio = float(c-1) * divs
-    self.lRatio = 1.0 - self.rRatio  
+    if numEvents <= 1:
+      self.rRatio = .5
+      self.lRatio = .5
+    else:
+      divs = 1.0 / float(numEvents-1)
+      self.rRatio = float(c-1) * divs
+      self.lRatio = 1.0 - self.rRatio  
     if debug: print self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio
     
     self.soundMutex = threading.Lock()
@@ -185,16 +189,15 @@ class gardenTrack(threading.Thread):
         event['vol'] = v
         event['factor'] = factor
         event['file'] = file
-        print "garden baseTime",garden.baseTime
+        if debug: print "garden baseTime",garden.baseTime
         event['time'] = time.time() - garden.baseTime
         self.playList['events'].append(event)
         playSound(sound,lVol,rVol)
+        garden.getWaiter().wait(self,cs)
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
-      nt = random.randint(specs.specs['eventMin'],specs.specs['eventMax'])/1000.0;
-      if debug: print(self.name+": next play:"+str(nt))
-      time.sleep(nt)
-      if debug: print(self.name+":back from sleep")
+        break
+      
     print("schlub thread " + self.name + " exiting")
     
 ecount = 0
