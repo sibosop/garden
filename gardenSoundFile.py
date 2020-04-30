@@ -34,9 +34,9 @@ def setup():
   for d in specs.specs['collections']:
       collections.append(d)
   
-  if debug: print collections
+  if debug: print (collections)
   currentCollection = collections.pop(0)
-  if debug: print "currentCollection:",currentCollection['name']
+  if debug: print ("currentCollection:",currentCollection['name'])
 
   timeout = time.time() + currentCollection['time']
 
@@ -44,16 +44,16 @@ def setup():
 def testBumpCollection():
   global timeout
   global currentCollection
-  #if debug: print "testBumpCollection time",time.time(),"timeout",timeout
+  #if debug: print ("testBumpCollection time",time.time(),"timeout",timeout)
   if time.time() > timeout:
-    if debug: print "timeout passed"
+    if debug: print ("timeout passed")
     if len(collections) == 0:
       return False
     
     currentCollection = collections.pop(0)
-    if debug: print "new current collection",currentCollection['name']
+    if debug: print ("new current collection",currentCollection['name'])
     timeout = time.time() + currentCollection['time']
-    if debug: print "new timeout",timeout
+    if debug: print ("new timeout",timeout)
   return True
     
   
@@ -66,16 +66,16 @@ def getSoundEntry():
   global fileCollections
   
   keys = specs.fileList(currentCollection['list'])
-  if debug: print "collection-list",currentCollection['name'],"-",currentCollection['list'],
-  "number of keys:",len(keys)
+  if debug: print ("collection-list",currentCollection['name'],"-",currentCollection['list'],
+  "number of keys:",len(keys))
   done = False
   choices = 0
   numChoices = specs.maxEvents()
-  if debug: print "collection:",currentCollection['name']," number of choices:",numChoices," max Events:",maxEvents
+  if debug: print ("collection:",currentCollection['name']," number of choices:",numChoices," max Events:",maxEvents)
   rval = []
   while len(rval) < numChoices:
     choice = random.randint(0,len(keys)-1)
-    if debug: print "rval;",rval
+    if debug: print ("rval;",rval)
     if keys[choice]['name'] in rval:
       continue
     rval.append(keys[choice])
@@ -85,6 +85,6 @@ def getSoundEntry():
 
 if __name__ == '__main__':
   while testBumpCollection():
-    print "currentCollection:",currentCollection
+    print ("currentCollection:",currentCollection)
     time.sleep(1)
 

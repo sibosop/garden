@@ -17,16 +17,16 @@ class waiterThread(threading.Thread):
     
   def run(self):
     global waitList
-    print "%s"%(self.name)
+    print ("%s"%(self.name))
     waitQuant = specs.specs['waitQuant']
     while not self.done:
       time.sleep(waitQuant)
       
       waits = []
       
-      #print "%s: doing check loop waitlist size %d"%(self.name,len(waitList))
+      #print ("%s: doing check loop waitlist size %d"%(self.name,len(waitList)))
       for w in waitList:
-        #print "%s checking %s"%(self.name,w)
+        #print ("%s checking %s"%(self.name,w))
         w['counter'] = w['counter'] + 1
         if w['counter'] >= w['count']:
            w['event'].set()
@@ -39,7 +39,7 @@ class waiterThread(threading.Thread):
       
   def wait(self,thread,cs):
     global waitList
-    if debug: print "%s wait: %s"%(thread.name,cs)
+    if debug: print ("%s wait: %s"%(thread.name,cs))
     wait = None
     if 'wait' in cs:
       wa = cs['wait'];
@@ -60,7 +60,7 @@ class waiterThread(threading.Thread):
        self.lock.acquire()
        waitList.append(w)
        self.lock.release()
-       if debug: print "%s: waiting on %s"%(thread.name,waitList)
+       if debug: print ("%s: waiting on %s"%(thread.name,waitList))
        w['event'].wait()
     if debug: print("%s: back from sleep"%(thread.name))
        
@@ -86,7 +86,7 @@ if __name__ == '__main__':
   parser.add_argument('-o','--output', action = 'store_true',help='save session to GardenTakes directory')
   args = parser.parse_args()
   specFile = args.spec[0]
-  print "using spec:",specFile
+  print ("using spec:",specFile)
   specs.setup(specFile)
   gardenSoundFile.setup()
   waiter = waiterThread()
@@ -94,7 +94,7 @@ if __name__ == '__main__':
   waiter.start()
   while True:
     cs = gardenSoundFile.getSoundEntry()
-    print cs
+    print (cs)
     myThread = threading.currentThread()
     entry = random.choice(cs)
     waiter.wait(myThread,entry)

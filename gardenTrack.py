@@ -20,15 +20,15 @@ buffers = {}
 def makeBuffers():
   rootDir = os.environ['GARDEN_ROOT_DIR']
   for l in specs.specs['collections']:
-    if debug: print "l:",l
+    if debug: print ("l:",l)
     for f in specs.specs[l['list']]:
-      if debug: print "f:",f['name']
+      if debug: print ("f:",f['name'])
       try:
         path = rootDir + '/' + f['name']
         buffer = pygame.mixer.Sound(file=path)
         buffers[f['name']] = buffer
       except Exception as e:
-        print "make Buffers:",e
+        print ("make Buffers:",e)
       
   
 def speedx(sound, factor):
@@ -64,7 +64,7 @@ def getBusyChannels():
   return count
 
 def playFile(path):
-  if debug: print "playing",path
+  if debug: print ("playing",path)
   sound = pygame.mixer.Sound(file=path)
   playSound(sound,.5,.5)
 
@@ -81,21 +81,21 @@ def doJpent():
 octaves = [0.25,0.5,1.0,2.0,4.0]
 
 def getFactor(cs):
-  if debug: print "getFactor on:",cs
+  if debug: print ("getFactor on:",cs)
   rval = 1.0
   if 'tuning' in cs.keys() and cs['tuning'] in specs.tunings.keys():
     ts = specs.tunings[cs['tuning']]
     tc = random.choice(ts)
     oc = random.choice(octaves)
-    if debug: print "tc:",tc,"oc:",oc
+    if debug: print ("tc:",tc,"oc:",oc)
     rval = tc * oc
   else:
-    if debug: print "default tuning for cs:",cs
+    if debug: print ("default tuning for cs:",cs)
     speedChangeMax = specs.specs['speedChangeMax']
     speedChangeMin = specs.specs['speedChangeMin']
     rval = ((speedChangeMax-speedChangeMin) * random.random()) + speedChangeMin
     
-  if debug: print "factor:",rval
+  if debug: print ("factor:",rval)
   return rval
   
   
@@ -116,7 +116,7 @@ class gardenTrack(threading.Thread):
       divs = 1.0 / float(numEvents-1)
       self.rRatio = float(c-1) * divs
       self.lRatio = 1.0 - self.rRatio  
-    if debug: print self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio
+    if debug: print (self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio)
     
     self.soundMutex = threading.Lock()
     self.runMutex = threading.Lock()
@@ -172,7 +172,7 @@ class gardenTrack(threading.Thread):
           time.sleep(2)
           continue
         #path = rootDir + '/' + file
-        if debug: print self.name,": playing:",file
+        if debug: print (self.name,": playing:",file)
         #sound = pygame.mixer.Sound(file=buffers[file])
         factor = getFactor(cs);
         sound = None
@@ -184,12 +184,12 @@ class gardenTrack(threading.Thread):
         v = random.uniform(specs.specs['soundMinVol'],specs.specs['soundMaxVol']);
         lVol = v * self.lRatio
         rVol = v * self.rRatio
-        if debug: print self.name,"lVol",lVol,"rVol",rVol,"lRatio",self.lRatio,"rRatio",self.rRatio
+        if debug: print (self.name,"lVol",lVol,"rVol",rVol,"lRatio",self.lRatio,"rRatio",self.rRatio)
         event = {}
         event['vol'] = v
         event['factor'] = factor
         event['file'] = file
-        if debug: print "garden baseTime",garden.baseTime
+        if debug: print ("garden baseTime",garden.baseTime)
         event['time'] = time.time() - garden.baseTime
         self.playList['events'].append(event)
         playSound(sound,lVol,rVol)

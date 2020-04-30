@@ -76,27 +76,27 @@
   ,"collections" : [
     {
       "name" : "walk"
-      ,"time" : 50
+      ,"time" : 150
       ,"list" : "walkList" 
     }
     ,{
       "name" : "tudor"
-      ,"time" : 80
+      ,"time" : 240
       ,"list" : "tudorList"
     }
     ,{
       "name" : "justMore"
-      ,"time" : 70
+      ,"time" : 210
       ,"list" : "justMoreList"
     }
     ,{
       "name" : "just"
-      ,"time" : 60
+      ,"time" : 180
       ,"list" : "justList"
     }
     ,{
       "name" : "walk2"
-      ,"time" : 40
+      ,"time" : 120
       ,"list" : "walkList"
     }
   ]

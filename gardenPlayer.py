@@ -41,10 +41,10 @@ class playerThread(threading.Thread):
     stime = time.time()
     while gardenSoundFile.testBumpCollection():
       try:
-        #print self.name,"time",time.time(),"stime",stime
+        #print (self.name,"time",time.time(),"stime",stime)
         if time.time() > stime:
           entry = gardenSoundFile.getSoundEntry()
-          if debug: print "player choosing ",entry,
+          if debug: print ("player choosing ",entry)
           count = 0
           for t in self.tList:
             choice = random.choice(entry)
@@ -52,13 +52,13 @@ class playerThread(threading.Thread):
             #count += 1
             #if count == len(entry):
               #count = 0
-            if debug: print "sending ",choice," request to ",t.name
+            if debug: print ("sending ",choice," request to ",t.name)
             t.setCurrentSound(choice)
           offset = random.randint(specs.minChange(),specs.maxChange())
           stime = time.time() + offset
-          if debug: print "next change:",offset
+          if debug: print ("next change:",offset)
           n = pygame.mixer.get_busy()
-          if debug: print "number busy channels",n
+          if debug: print ("number busy channels",n)
         time.sleep(1)
       except Exception as e:
         print("player error: "+repr(e))

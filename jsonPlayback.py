@@ -19,7 +19,7 @@ threads = []
 
 
 def usage():
-  print "usage:",sys.argv[0]," spec file"
+  print ("usage:",sys.argv[0]," spec file")
   os._exit(-1)
 
 def playSound(sound,l,r):
@@ -54,11 +54,11 @@ class Playback(threading.Thread):
         self.lRatio = 0
         self.rRatio = 1.0
     else:
-      print "numEvents %d thread number %d"%(numEvents,c)
+      print ("numEvents %d thread number %d"%(numEvents,c))
       div = 1.0 / float(numEvents-1)
       self.rRatio = float(c-1) * div
       self.lRatio = 1.0 - self.rRatio  
-    if debug: print self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio
+    if debug: print (self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio)
     
   def run(self):
     global baseTime
@@ -66,7 +66,7 @@ class Playback(threading.Thread):
       while e['time'] > (time.time() - baseTime):
         time.sleep(0)
       path = rootDir + '/' + e['file']
-      print "%s: playing %s"%(self.name,path)
+      print ("%s: playing %s"%(self.name,path))
       sound = pygame.mixer.Sound(file=path)
       factor = e['factor']
       nsound = gardenTrack.speedx(sound,factor)
@@ -76,10 +76,10 @@ class Playback(threading.Thread):
       l = v * self.lRatio
       r = v * self.rRatio
       playSound(sound,l,r)
-    print "%s: exiting"%self.name
+    print ("%s: exiting"%self.name)
     
 def waitForThreads():
-  print "waiting for threads to be done"
+  print ("waiting for threads to be done")
   done = False
   while True:
     test = []
@@ -89,7 +89,7 @@ def waitForThreads():
     if len(test) == 0:
         break
     time.sleep(0.25)
-  print "threads done"
+  print ("threads done")
     
     
 if __name__ == '__main__':
@@ -105,7 +105,7 @@ if __name__ == '__main__':
   voices = []
   if len(args.voices) == 0:
     d = "%s/GardenTrack*json"%takesDir
-    print "adding all voices from",d
+    print ("adding all voices from",d)
     files = glob.glob(d)
     print files
     for i in range(1,len(files)+1):
@@ -113,7 +113,7 @@ if __name__ == '__main__':
   else:
     for v in args.voices:
       voices.append(int(v))
-  print "voices",voices
+  print ("voices",voices)
   chans = 2
   if len(voices) == 1:
     chans = 1
@@ -143,7 +143,7 @@ if __name__ == '__main__':
     
   while True:
     n = pygame.mixer.get_busy()
-    print "number busy channels",n
+    print ("number busy channels",n)
     if n == 0:
       break;
     time.sleep(1)

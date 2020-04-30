@@ -22,12 +22,12 @@ takesDir = ""
       
 
 def usage():
-  print "usage:",sys.argv[0]," spec file"
+  print ("usage:",sys.argv[0]," spec file")
   os._exit(-1)
   
 def makeTakesDir():
   global takesDir
-  print "creating takes dir"
+  print ("creating takes dir")
   rootDir = "GardenTakes/*.*"
   i = 0
   done = False
@@ -48,7 +48,7 @@ def makeTakesDir():
         break
     if not found:
       takesDir = "GardenTakes/Take.%d"%i
-      print "making",takesDir
+      print ("making",takesDir)
       os.mkdir(takesDir)
       break
     
@@ -74,16 +74,16 @@ if __name__ == '__main__':
   parser.add_argument('-o','--output', action = 'store_true',help='save session to GardenTakes directory')
   args = parser.parse_args()
   specFile = args.spec[0]
-  print "using spec:",specFile
+  print ("using spec:",specFile)
   specs.setup(specFile)
   if args.output:
     makeTakesDir()   
-  print "takesDir:",takesDir
+  print ("takesDir:",takesDir)
   
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
   waiterThread.start()
-  print "waiterThread %s"%(waiterThread)
+  print ("waiterThread %s"%(waiterThread))
   
   gardenSoundFile.setup()
   gardenTrack.makeBuffers()
@@ -99,10 +99,10 @@ if __name__ == '__main__':
     if pt.done:
       break
   
-  print "waiting for channels to be done"
+  print ("waiting for channels to be done")
   while True:
     n = pygame.mixer.get_busy()
-    print "number busy channels",n
+    print ("number busy channels",n)
     if n == 0:
       break;
     time.sleep(1)
@@ -111,9 +111,9 @@ if __name__ == '__main__':
     for t in threads:
       desc = json.dumps(t.playList)
       fname = takesDir+"/"+t.name+".json"
-      print "saving:",fname
+      print ("saving:",fname)
       f = open(fname,"w")
       f.write(desc)
       f.close()
-  print "garden done"
+  print ("garden done")
 
