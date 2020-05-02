@@ -8,7 +8,6 @@ import numpy as np
 import gardenSoundFile
 import specs
 import garden
-import waiter
 
 debug = False
 currentSound = {'file':""}
@@ -193,7 +192,9 @@ class gardenTrack(threading.Thread):
         event['time'] = time.time() - garden.baseTime
         self.playList['events'].append(event)
         playSound(sound,lVol,rVol)
-        garden.getWaiter().wait(self,cs)
+        nt = random.randint(specs.specs['eventMin'],specs.specs['eventMax'])/1000.0;
+        if debug: print(self.name+"no wait spec: next play:"+str(nt))
+        time.sleep(nt)
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
         break
