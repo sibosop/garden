@@ -8,6 +8,9 @@ import numpy as np
 import gardenSoundFile
 import specs
 import garden
+import queue
+
+
 
 debug = False
 currentSound = {'file':""}
@@ -97,8 +100,14 @@ def getFactor(cs):
   if debug: print ("factor:",rval)
   return rval
   
-  
-class gardenTrack(threading.Thread):
+
+class Msg(object):
+  def __init__(self,type="sound",data=None):
+    self.type = type
+    self.data = data  
+    
+    
+class gardenTrack(threading.Thread):    
   def __init__(self,c):
     global numEvents
     super(gardenTrack,self).__init__()
@@ -106,7 +115,8 @@ class gardenTrack(threading.Thread):
     self.playList['events'] = []
     self.runState = True
     self.name = "GardenTrack-"+str(c)
-    self.currentSound={'name' : ""}
+    self.currentSound=None
+    self.queue = queue.Queue()
     self.currentDir = os.getcwd()
     if numEvents <= 1:
       self.rRatio = .5
@@ -117,7 +127,6 @@ class gardenTrack(threading.Thread):
       self.lRatio = 1.0 - self.rRatio  
     if debug: print (self.name,"starting with lRatio:",self.lRatio, "rRatio",self.rRatio)
     
-    self.soundMutex = threading.Lock()
     self.runMutex = threading.Lock()
     self.dirMutex = threading.Lock()
     
@@ -133,17 +142,7 @@ class gardenTrack(threading.Thread):
     return dir
     
   def setCurrentSound(self,cs):
-    self.soundMutex.acquire()
-    self.currentSound = cs
-    self.soundMutex.release()
-  
-  def getCurrentSound(self):
-    self.soundMutex.acquire()
-    cs = self.currentSound 
-    self.soundMutex.release()
-    return cs
-    
- 
+    self.queue.put(Msg(data=cs))
   
     
   def isRunning(self):
@@ -161,15 +160,20 @@ class gardenTrack(threading.Thread):
   def run(self):
     print("Garden Track:"+self.name)
     #rootDir = os.environ['GARDEN_ROOT_DIR']
+    ts = None
+    file = None
     while self.isRunning():
       try:
-        cs = self.getCurrentSound()
-        file=""
-        file = cs['name']
-        if file == "":
-          if debug: print(self.name+": waiting for currentSoundFile");
-          time.sleep(2)
-          continue
+        try:
+          msg = self.queue.get(timeout=ts)
+          if msg.type == 'sound':
+            cs = msg.data
+            file = cs['name']
+          else:
+            raise Exception("Bad Queue Type")
+        except queue.Empty:
+          if file is None:
+            raise Exception("Null File")
         #path = rootDir + '/' + file
         if debug: print (self.name,": playing:",file)
         #sound = pygame.mixer.Sound(file=buffers[file])
@@ -192,9 +196,8 @@ class gardenTrack(threading.Thread):
         event['time'] = time.time() - garden.baseTime
         self.playList['events'].append(event)
         playSound(sound,lVol,rVol)
-        nt = random.randint(specs.specs['eventMin'],specs.specs['eventMax'])/1000.0;
-        if debug: print(self.name+"no wait spec: next play:"+str(nt))
-        time.sleep(nt)
+        ts = random.randint(specs.specs['eventMin'],specs.specs['eventMax'])/1000.0;
+        if debug: print(self.name+": next play:"+str(ts))
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
         break
