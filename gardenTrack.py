@@ -6,13 +6,13 @@ import random
 import time
 import numpy as np
 import gardenSoundFile
-import specs
+from specs import Specs
 import garden
 import queue
 
 
 
-debug = False
+debug = True
 currentSound = {'file':""}
 
 numEvents=0
@@ -21,16 +21,21 @@ buffers = {}
 
 def makeBuffers():
   rootDir = os.environ['GARDEN_ROOT_DIR']
-  for l in specs.specs['collections']:
-    if debug: print ("l:",l)
-    for f in specs.specs[l['list']]:
-      if debug: print ("f:",f['name'])
-      try:
-        path = rootDir + '/' + f['name']
-        buffer = pygame.mixer.Sound(file=path)
-        buffers[f['name']] = buffer
-      except Exception as e:
-        print ("make Buffers:",e)
+  for c in Specs().s['collections']:
+    if debug: print ("c:",c)
+    for l in Specs().s[c]:
+      if debug: print ("l:",l)
+      for f in Specs().s[l['list']]:
+        if debug: print ("f:",f['name'])
+        try:
+          path = rootDir + '/' + f['name']
+          buffer = pygame.mixer.Sound(file=path)
+          if f['name'] in buffers:
+            if debug: print("skipping %s"%f['name'])
+          else:
+            buffers[f['name']] = buffer
+        except Exception as e:
+          print ("make Buffers:",e)
       
   
 def speedx(sound, factor):
@@ -49,9 +54,16 @@ def speedx(sound, factor):
 def playSound(sound,l,r):
   eventChan = None
   eventChan=pygame.mixer.find_channel()
-  if eventChan is None:
+  errCount = 0
+  while eventChan is None:
     pygame.mixer.set_num_channels(pygame.mixer.get_num_channels()+1);
+    print("increased num channels to %d"%pygame.mixer.get_num_channels())
     eventChan=pygame.mixer.find_channel()
+    if eventChan is None:
+      errCount += 1
+      if errCount == 6:
+        raise Exception("Can't allocate a pygame channel")
+      print("channel grabbed by other thread, trying again")
   if debug: print("busy channels:"+str(getBusyChannels()))
   if debug: print("l: "+str(l) + " r:"+str(r))
   eventChan.set_volume(l,r)
@@ -71,8 +83,8 @@ def playFile(path):
   playSound(sound,.5,.5)
 
 def doJpent():
-  speedChangeMax = specs.specs['speedChangeMax']
-  speedChangeMin = specs.specs['speedChangeMin']
+  speedChangeMax = Specs().s['speedChangeMax']
+  speedChangeMin = Specs().s['speedChangeMin']
   rval = ((speedChangeMax-speedChangeMin) 
                         * random.random()) + speedChangeMin
   if debug: print("doJpent")
@@ -85,16 +97,16 @@ octaves = [0.25,0.5,1.0,2.0,4.0]
 def getFactor(cs):
   if debug: print ("getFactor on:",cs)
   rval = 1.0
-  if 'tuning' in cs.keys() and cs['tuning'] in specs.tunings.keys():
-    ts = specs.tunings[cs['tuning']]
+  if 'tuning' in cs.keys() and cs['tuning'] in Specs().s['tunings'].keys():
+    ts = Specs().s['tunings'][cs['tuning']]
     tc = random.choice(ts)
     oc = random.choice(octaves)
     if debug: print ("tc:",tc,"oc:",oc)
     rval = tc * oc
   else:
     if debug: print ("default tuning for cs:",cs)
-    speedChangeMax = specs.specs['speedChangeMax']
-    speedChangeMin = specs.specs['speedChangeMin']
+    speedChangeMax = Specs().s['speedChangeMax']
+    speedChangeMin = Specs().s['speedChangeMin']
     rval = ((speedChangeMax-speedChangeMin) * random.random()) + speedChangeMin
     
   if debug: print ("factor:",rval)
@@ -184,7 +196,7 @@ class gardenTrack(threading.Thread):
           sound = nsound
         else:
           sound = buffers[file]
-        v = random.uniform(specs.specs['soundMinVol'],specs.specs['soundMaxVol']);
+        v = random.uniform(Specs().s['soundMinVol'],Specs().s['soundMaxVol']);
         lVol = v * self.lRatio
         rVol = v * self.rRatio
         if debug: print (self.name,"lVol",lVol,"rVol",rVol,"lRatio",self.lRatio,"rRatio",self.rRatio)
@@ -196,7 +208,7 @@ class gardenTrack(threading.Thread):
         event['time'] = time.time() - garden.baseTime
         self.playList['events'].append(event)
         playSound(sound,lVol,rVol)
-        ts = random.randint(specs.specs['eventMin'],specs.specs['eventMax'])/1000.0;
+        ts = random.randint(Specs().s['eventMin'],Specs().s['eventMax'])/1000.0;
         if debug: print(self.name+": next play:"+str(ts))
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))

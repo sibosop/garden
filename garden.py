@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 import os
+import sys
+sys.path.append("sibcommon")
 import datetime
 import gardenTrack
 import gardenPlayer
-import gardenSoundFile
-import sys
+from soundFile import SoundFile
+
 import random
 import pygame
 import json
@@ -13,10 +15,10 @@ import glob
 
 import time
 import gardenPlayer
-import specs
+from specs import Specs
+import signal
 
-
-debug = True
+from debug import Debug
 baseTime = time.time()
 takesDir = ""
       
@@ -52,12 +54,26 @@ def makeTakesDir():
       os.mkdir(takesDir)
       break
     
+class ServiceExit(Exception):
+    """
+    Custom exception which is used to trigger the clean exit
+    of all running threads and the main program.
+    """
+    pass
+
+def service_shutdown(signum, frame):
+    Debug().p('Caught signal %d' % signum)
+    raise ServiceExit
     
     
 
 if __name__ == '__main__':
-  random.seed()
   pname = sys.argv[0]
+  signal.signal(signal.SIGTERM, service_shutdown)
+  signal.signal(signal.SIGINT, service_shutdown)
+  print("%s at %s"%(pname,datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')))
+  random.seed()
+ 
   os.environ['DISPLAY']=":0.0"
   os.chdir(os.path.dirname(sys.argv[0]))
   print(pname+" at "+datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))  
@@ -67,17 +83,17 @@ if __name__ == '__main__':
   args = parser.parse_args()
   specFile = args.spec[0]
   print ("using spec:",specFile)
-  specs.setup(specFile)
+  specs = Specs(specFile)
   if args.output:
     makeTakesDir()   
   print ("takesDir:",takesDir)
   
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
-  gardenSoundFile.setup()
+  SoundFile().setCurrentCollection()
   gardenTrack.makeBuffers()
   
-  gardenTrack.changeNumGardenThreads(specs.numThreads())
+  gardenTrack.changeNumGardenThreads(specs.s["numThreads"])
   threads = gardenTrack.eventThreads
   
   pt = gardenPlayer.playerThread(threads)

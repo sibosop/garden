@@ -1,0 +1,72 @@
+{ 
+  "type" : "async"
+  ,"tunings" : {
+      "jpent" : ["1/1","32/27","4/3","3/2","16/9"]
+      ,"bfarabi" : ["1/1","9/8","45/32","131/90","3/2","15/8","31/16"]
+      ,"sheng" : ["1/1","8/7","6/5","5/4","3/2","5/3"]
+      ,"joy" : ["1/1","9/8","5/4","3/2","5/3","15/8"]
+    }
+  ,"numThreads" : 8
+  ,"minChange" : 5
+  ,"maxChange" : 15
+  ,"maxEvents" : 2
+  ,"soundMaxVol" : 0.3
+  ,"soundMinVol" : 0.1
+  ,"speedChangeMax" : 4.0
+  ,"speedChangeMin" : 0.25
+  ,"eventMin" : 100
+  ,"eventMax" : 10000
+  ,"waitQuant" : 0.01
+  ,"waitTimesPulse" : [10,40]
+  ,"openList" : [
+      {"name" : "gen1__joy.wav"}
+      ,{"name" : "viol__joy.wav" }	
+      ]  
+  ,"justMoreList" : [
+        {"name" : "gen1__joy.wav"}
+        ,{"name" : "viol__joy.wav" }
+        ,{"name" : "clanky__joy.wav" , "tuning" : "joy"}
+        ,{"name" : "bongsaw__joy.wav", "tuning" : "joy" }
+        ,{"name" : "pulser6.wav" }
+        ,{"name" : "rancan__joy.wav" , "tuning" : "joy"}
+      ]
+  ,"justList" : [
+        {"name" : "TwoP__joy.wav" , "tuning" : "joy"}
+        ,{"name" : "TwoPluck__joy.wav" , "tuning" : "joy"}
+        ,{"name" : "clanky__joy.wav", "tuning" : "joy" }
+        ,{"name" : "delay__joy.wav" , "tuning" : "joy"}
+        ,{"name" : "delay_harm__joy.wav", "tuning" : "joy" }
+        ,{"name" : "gen1__joy.wav", "tuning" : "joy" }
+        ,{"name" : "viol__joy.wav", "tuning" : "joy" }
+        ,{"name" : "celeste__joy.wav", "tuning" : "joy" }
+        ,{"name" : "p2__joy.wav", "tuning" : "joy" }
+        ,{"name" : "bongsaw__joy.wav", "tuning" : "joy" }
+      ]
+  ,"closeList" : [
+      {"name" : "gen1__joy.wav"}
+      ,{"name" : "viol__joy.wav" }	  
+      ]  
+  ,"collections" : ["DroneZoneHalf"]
+  ,"DroneZoneHalf" : [
+    {
+      "name" : "openList"
+      ,"time" : 60
+      ,"list" : "openList" 
+    }
+    ,{
+      "name" : "justMore"
+      ,"time" : 140
+      ,"list" : "justMoreList"
+    }
+    ,{
+      "name" : "just"
+      ,"time" : 300
+      ,"list" : "justList"
+    }
+    ,{
+      "name" : "Close"
+      ,"time" : 60
+      ,"list" : "closeList"
+    }
+  ]
+}

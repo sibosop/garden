@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import os
+import sys
+sys.path.append("sibcommon")
 import collections
 import csv
 import os
@@ -12,7 +15,7 @@ import json
 import shutil
 import gardenTrack
 import time
-import specs
+from specs import Specs
 
 debug=False
 listMutex=threading.Lock()
@@ -31,7 +34,7 @@ def setup():
   currentCollection = ""
   
     
-  for d in specs.specs['collections']:
+  for d in Specs().s['collections']:
       collections.append(d)
   
   if debug: print (collections)

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import threading
 import time
 import subprocess
@@ -8,9 +7,9 @@ import random
 import json
 import os
 import sys
-import gardenSoundFile
+from soundFile import SoundFile
 import pygame
-import specs
+from specs import Specs
 
 debug = False
 
@@ -39,11 +38,11 @@ class playerThread(threading.Thread):
     
   def run(self):
     stime = time.time()
-    while gardenSoundFile.testBumpCollection():
+    while SoundFile().testBumpCollection():
       try:
         #print (self.name,"time",time.time(),"stime",stime)
         if time.time() > stime:
-          entry = gardenSoundFile.getSoundEntry()
+          entry = SoundFile().getSoundEntry()
           if debug: print ("player choosing ",entry)
           count = 0
           for t in self.tList:
@@ -54,7 +53,7 @@ class playerThread(threading.Thread):
               #count = 0
             if debug: print ("sending ",choice," request to ",t.name)
             t.setCurrentSound(choice)
-          offset = random.randint(specs.minChange(),specs.maxChange())
+          offset = random.randint(Specs().s['minChange'],Specs().s['maxChange'])
           stime = time.time() + offset
           if debug: print ("next change:",offset)
           n = pygame.mixer.get_busy()
