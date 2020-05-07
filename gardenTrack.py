@@ -100,9 +100,11 @@ def getFactor(cs):
   if 'tuning' in cs.keys() and cs['tuning'] in Specs().s['tunings'].keys():
     ts = Specs().s['tunings'][cs['tuning']]
     tc = random.choice(ts)
+    num,den = tc.split("/")
+    td = float(num) / float(den)
     oc = random.choice(octaves)
-    if debug: print ("tc:",tc,"oc:",oc)
-    rval = tc * oc
+    if debug: print ("td:",td,"oc:",oc)
+    rval = td * oc
   else:
     if debug: print ("default tuning for cs:",cs)
     speedChangeMax = Specs().s['speedChangeMax']
@@ -214,7 +216,7 @@ class gardenTrack(threading.Thread):
         print(self.name+": error on "+file+":"+str(e))
         break
       
-    print("schlub thread " + self.name + " exiting")
+    print(self.name + " exiting")
     
 ecount = 0
 eventThreads=[]
