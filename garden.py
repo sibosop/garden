@@ -3,7 +3,8 @@ import os
 import sys
 sys.path.append("sibcommon")
 import datetime
-import gardenTrack
+
+import gardenTrack 
 import gardenPlayer
 from soundFile import SoundFile
 
@@ -91,10 +92,10 @@ if __name__ == '__main__':
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
   SoundFile().setCurrentCollection()
-  gardenTrack.makeBuffers()
   
-  gardenTrack.changeNumGardenThreads(specs.s["numThreads"])
-  threads = gardenTrack.eventThreads
+  
+  gardenTrack.TrackManager().changeNumGardenThreads(specs.s["numThreads"])
+  threads = gardenTrack.TrackManager().eventThreads
   
   pt = gardenPlayer.playerThread(threads)
   pt.setDaemon(True)
