@@ -89,6 +89,8 @@ if __name__ == '__main__':
     makeTakesDir()   
   print ("takesDir:",takesDir)
   
+  Debug().enable(specs.s['debug'])
+  
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
   pygame.init()
   SoundFile().setCurrentCollection()
