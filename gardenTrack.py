@@ -20,7 +20,7 @@ class TrackManager(metaclass=Singleton):
     self.numEvents=0
     self.buffers = {}
     self.rootDir = Specs().s['rootDir']
-    self.octaves = [0.25,0.5,1.0,2.0,4.0]
+    self.octaves = Specs().s['octaves']
     self.tunings = {}
     self.ecount = 0
     self.eventThreads=[]
@@ -133,8 +133,17 @@ class TrackManager(metaclass=Singleton):
     rval = 1.0
     if 'tuning' in cs.keys() and cs['tuning'] in self.tunings.keys():
       ts = self.tunings[cs['tuning']]
-      tc = random.choice(ts)
-      oc = random.choice(self.octaves)
+      i = 0
+      if 'rlist' in cs.keys():
+        i = random.choice(cs['rlist'])
+      else:
+        i = random.randint(0,len(ts)-1)
+      tc = ts[i]
+      if 'olist' in cs.keys():
+        i = random.choice(cs['olist'])
+      else:
+        i = random.randint(0,len(self.octaves)-1)
+      oc = self.octaves[i]
       Debug().p("tc: %f oc: %f"%(tc,oc))
       rval = tc * oc
     else:
@@ -208,6 +217,9 @@ class gardenTrack(threading.Thread):
           if msg.type == 'sound':
             cs = msg.data
             file = cs['name']
+            Debug().p("%s: changing to %s"%(self.name,file))
+            ts = random.randint(Specs().s['eventMin'],Specs().s['eventMax'])/1000.0;
+            continue
           else:
             raise Exception("Bad Queue Type")
         except queue.Empty:
