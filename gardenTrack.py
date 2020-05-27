@@ -237,6 +237,8 @@ class gardenTrack(threading.Thread):
         except queue.Empty:
           if file is None:
             raise Exception("Null File")
+        except Exception as e:
+          raise e
         #path = rootDir + '/' + file
         Debug().p ("%s: playing: %s"%(self.name,file))
         #sound = pygame.mixer.Sound(file=self.buffers[file])
