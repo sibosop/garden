@@ -7,6 +7,7 @@ import datetime
 import gardenTrack 
 import gardenPlayer
 from soundFile import SoundFile
+from pulser import Pulser
 
 import random
 import pygame
@@ -20,7 +21,7 @@ from specs import Specs
 import signal
 
 from debug import Debug
-baseTime = time.time()
+
 takesDir = ""
       
 
@@ -89,6 +90,7 @@ if __name__ == '__main__':
     makeTakesDir()   
   print ("takesDir:",takesDir)
   
+  
   Debug().enable(specs.s['debug'])
   
   pygame.mixer.pre_init(frequency=44100, size=-16, channels=2, buffer=4096)
@@ -96,8 +98,12 @@ if __name__ == '__main__':
   SoundFile().setCurrentCollection()
   
   
+  
   gardenTrack.TrackManager().changeNumGardenThreads(specs.s["numThreads"])
   threads = gardenTrack.TrackManager().eventThreads
+  pulser=Pulser()
+  pulser.setDaemon(True)
+  pulser.start()
   
   pt = gardenPlayer.playerThread(threads)
   pt.setDaemon(True)
