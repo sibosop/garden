@@ -214,7 +214,10 @@ class gardenTrack(threading.Thread):
     ts = None
     tsbase = None
     file = None
+    isPulser = False
+    pulseCount = 1
     tmgr=TrackManager()
+    cs = None
     while self.isRunning():
       try:
         try:
@@ -224,17 +227,34 @@ class gardenTrack(threading.Thread):
           if msg.type == Msg.sound:
             cs = msg.data
             file = cs['name']
-            Debug().p("%s: changing to %s"%(self.name,file))
-            ts = random.uniform(Specs().s['minStart'],Specs().s['maxStart']);
+            if 'plist' in cs.keys():
+              ts = None
+              isPulser = True
+              pulseCount = random.choice(cs['plist'])
+            else:
+              isPulser = False
+              ts = random.uniform(Specs().s['minStart'],Specs().s['maxStart']);
+            Debug().p("%s: changing to %s ts %s"%(self.name,file,ts))
             continue
           if msg.type == Msg.pulse:
-            if ts is not None:
-              ts = tsbase - time.time()
-            Debug().p("%s: got pulse ts %s"%(self.name,ts))
-            continue
+            if cs is None:
+              continue
+            if isPulser:
+              pulseCount -= 1
+              if pulseCount is 0:
+                pulseCount = random.choice(cs['plist'])
+                Debug().p("%s: playing pulse"%self.name)
+              else:
+                continue
+            else:
+              if ts is not None:
+                ts = tsbase - time.time()
+                Debug().p("%s: got pulse ts %s"%(self.name,ts))
+                continue
           else:
             raise Exception("Bad Queue Type")
         except queue.Empty:
+          ts = random.randint(Specs().s['eventMin'],Specs().s['eventMax'])/1000.0;
           if file is None:
             raise Exception("Null File")
         except Exception as e:
@@ -260,8 +280,7 @@ class gardenTrack(threading.Thread):
         Debug().p ("%s: garden baseTime %s"%(self.name,TrackManager().baseTime))
         event['time'] = time.time() - TrackManager().baseTime
         self.playList['events'].append(event)
-        tmgr.playSound(sound,lVol,rVol)
-        ts = random.randint(Specs().s['eventMin'],Specs().s['eventMax'])/1000.0;
+        tmgr.playSound(sound,lVol,rVol) 
         Debug().p(self.name+": next play:"+str(ts))
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
