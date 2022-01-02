@@ -2,6 +2,8 @@
 import os
 import sys
 sys.path.append("sibcommon")
+sys.path.append("seqlib")
+sys.path.append("SpecFiles")
 import datetime
 
 import gardenTrack 
