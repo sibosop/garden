@@ -11,9 +11,16 @@ from soundFile import SoundFile
 import pygame
 from specs import Specs
 from debug import Debug
+
 debug = False
 
 playerMutex=threading.Lock()
+def getBusyChannels():
+  count = 0
+  for i in range(pygame.mixer.get_num_channels()):
+    if pygame.mixer.Channel(i).get_busy():
+      count +=1
+  return count
 
 def enable(val):
   global enabled
@@ -55,8 +62,9 @@ class playerThread(threading.Thread):
           offset = random.randint(Specs().s['minChange'],Specs().s['maxChange'])
           stime = time.time() + offset
           Debug().p ("next change: %d"%offset)
-          n = pygame.mixer.get_busy()
-          Debug().p ("number busy channels %d"%n)
+          n = getBusyChannels()
+          b = pygame.mixer.get_busy()
+          Debug().p ("number busy channels %d mixer busy %d"%(n,b))
         time.sleep(1)
       except Exception as e:
         print("player error: "+repr(e))
