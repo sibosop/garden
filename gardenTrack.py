@@ -148,8 +148,13 @@ class TrackManager(metaclass=Singleton):
       Debug().p("tc: %f oc: %f"%(tc,oc))
       rval = tc * oc
     else:
-      Debug().p ("default tuning for cs: %s"%cs)
-      rval = ((self.speedChangeMax-self.speedChangeMin) * random.random()) + self.speedChangeMin
+      speedChangeMax = self.speedChangeMax;
+      speedChangeMin =  self.speedChangeMin;
+      if 'speedList' in cs.keys():
+        speedChangeMin = cs['speedList'][0];
+        speedChangeMax = cs['speedList'][-1];
+      Debug().p ("default tuning for cs: %s min %f max %f"%(cs,speedChangeMin,speedChangeMax))
+      rval = ((speedChangeMax-speedChangeMin) * random.random()) + speedChangeMin
     
     Debug().p ("factor: %f"%rval)
     return rval
