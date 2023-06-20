@@ -119,7 +119,7 @@ if __name__ == '__main__':
   while True:
     n = gardenTrack.TrackManager().getBusyChannels()
     b = pygame.mixer.get_busy()
-    print ("number busy channels %d  busy %d"%(n,b))
+    print ("number busy channels %d"%n)
     if n == 0:
       break;
     time.sleep(1)

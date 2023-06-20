@@ -130,7 +130,7 @@ class TrackManager(metaclass=Singleton):
     playSound(sound,.5,.5)
 
   def getFactor(self,cs):
-    Debug().p ("getFactor on:"%cs)
+    Debug().p ("getFactor on: %s"%cs)
     rval = 1.0
     if 'tuning' in cs.keys() and cs['tuning'] in self.tunings.keys():
       ts = self.tunings[cs['tuning']]
@@ -153,7 +153,7 @@ class TrackManager(metaclass=Singleton):
       if 'speedList' in cs.keys():
         speedChangeMin = cs['speedList'][0];
         speedChangeMax = cs['speedList'][-1];
-      Debug().p ("default tuning for cs: %s min %f max %f"%(cs,speedChangeMin,speedChangeMax))
+      Debug().p ("default tuning  min %f max %f"%(speedChangeMin,speedChangeMax))
       rval = ((speedChangeMax-speedChangeMin) * random.random()) + speedChangeMin
     
     Debug().p ("factor: %f"%rval)
@@ -286,7 +286,7 @@ class gardenTrack(threading.Thread):
         event['time'] = time.time() - TrackManager().baseTime
         self.playList['events'].append(event)
         tmgr.playSound(sound,lVol,rVol) 
-        Debug().p(self.name+": next play:"+str(ts))
+        Debug().p(self.name+": next play:"+str(ts)+"\n----")
       except Exception as e:
         print(self.name+": error on "+file+":"+str(e))
         break
