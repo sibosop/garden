@@ -69,7 +69,7 @@ class Playback(threading.Thread):
       print ("%s: playing %s"%(self.name,path))
       sound = pygame.mixer.Sound(file=path)
       factor = e['factor']
-      nsound = gardenTrack.speedx(sound,factor)
+      nsound = gardenTrack.TrackManager.speedx(sound,factor)
       if nsound is not None:
         sound = nsound
       v = e['vol']
@@ -84,7 +84,7 @@ def waitForThreads():
   while True:
     test = []
     for t in threads:
-      if t.isAlive():
+      if t.is_alive():
         test.append(t)
     if len(test) == 0:
         break
@@ -107,7 +107,7 @@ if __name__ == '__main__':
     d = "%s/GardenTrack*json"%takesDir
     print ("adding all voices from",d)
     files = glob.glob(d)
-    print files
+    print (files)
     for i in range(1,len(files)+1):
       voices.append(i)
   else:
@@ -142,7 +142,7 @@ if __name__ == '__main__':
   waitForThreads()
     
   while True:
-    n = pygame.mixer.get_busy()
+    n = gardenTrack.TrackManager.getBusyChannels()
     print ("number busy channels",n)
     if n == 0:
       break;

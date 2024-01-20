@@ -25,6 +25,7 @@ import signal
 from debug import Debug
 
 takesDir = ""
+goto = ""
       
 
 def usage():
@@ -41,7 +42,6 @@ def makeTakesDir():
   while True:
     found = False
     for f in files:
-      #print f
       try:
         n = f.rindex(".")
       except:
@@ -83,13 +83,20 @@ if __name__ == '__main__':
   print(pname+" at "+datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S'))  
   parser = argparse.ArgumentParser()
   parser.add_argument('-s', '--spec', nargs=1, help='specify spec file', required=True )
+  parser.add_argument('-g', '--goto', nargs=1, help='goto the label')
   parser.add_argument('-o','--output', action = 'store_true',help='save session to GardenTakes directory')
   args = parser.parse_args()
   specFile = args.spec[0]
   print ("using spec:",specFile)
   specs = Specs(specFile)
+  print("args.output",args.output)
   if args.output:
-    makeTakesDir()   
+    makeTakesDir() 
+  if args.goto:
+    goto = args.goto[0]
+    print("goto",goto)
+    
+      
   print ("takesDir:",takesDir)
   
   
@@ -99,6 +106,11 @@ if __name__ == '__main__':
   pygame.init()
   SoundFile().setCurrentCollection()
   
+  if ( goto != "" ):
+    print("going to label",goto)
+    if ( not SoundFile().goto(goto)):
+      print("cannot find label",goto);
+      exit(-1)
   
   
   gardenTrack.TrackManager().changeNumGardenThreads(specs.s["numThreads"])
