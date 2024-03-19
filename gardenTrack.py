@@ -29,12 +29,18 @@ class TrackManager(metaclass=Singleton):
     self.speedChangeMin = Specs().s['speedChangeMin']
     self.soundMinVol = Specs().s['soundMinVol']
     self.soundMaxVol = Specs().s['soundMaxVol']
+    cent = 2 ** (1/1200)
+    print (cent)
     for k in Specs().s['tunings'].keys():
       self.tunings[k] = []
       for t in Specs().s['tunings'][k]:
-        num,den = t.split("/")
-        self.tunings[k].append(float(num)/float(den))
-        
+        if "/" in t:
+          num,den = t.split("/")
+          self.tunings[k].append(float(num)/float(den))
+        else:
+          val = cent ** float(t)
+          print(val)
+          self.tunings[k].append(val)
     for c in Specs().s['collections']:
       Debug().p ("c:%s"%c)
       for l in Specs().s[c]:
@@ -246,7 +252,7 @@ class gardenTrack(threading.Thread):
               continue
             if isPulser:
               pulseCount -= 1
-              if pulseCount is 0:
+              if pulseCount == 0:
                 pulseCount = random.choice(cs['plist'])
                 Debug().p("%s: playing pulse"%self.name)
               else:
