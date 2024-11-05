@@ -1,0 +1,393 @@
+#
+## Tuning.TXT
+## This file contains descriptions of tunings that were orignally in
+## Tim Perkis's TUNUP program for the TX81Z.
+## This file has a parsing format that can be used to describe tunings.
+## The file is used by the MAX tuna object which was written for use with MSP
+##
+## FORMAT:
+## TITLE: MIDI_BASE FREQ_BASE [CHROMATIC | DIATONIC | PENTATONIC | WHOLE]
+##				[EQUAL CENTS TETRACHORD RATIO FREQ] [SPEC NUMBS ...]
+## SPEC NUMBS
+## EQUAL:
+##		[NUMBER]
+## TETRACHORD:
+##		n/n n/n n/n n/n
+## RATIO:	
+##		n/n n/n [number of ratios depends on type of scale]
+##
+## CENTS:
+##		f f f f [number of floats depends on type of scale]
+##
+## FREQ:
+##		f f f f [number of floats depends on type of scale
+##
+#7 and 5  White keys are 7 equal-temperament, black keys are 5-ET;
+#     from Owen Jorgensen  5-et = Javanese slendro; 7-et = Jav
+#     Pelog and is also used in Thailand
+
+#60 TO 30  Just 12-tone scale from dividing string into 60 equal
+#     parts   
+60to30: 60 261.63 CHROMATIC RATIO 1/1 15/14 10/9 6/5 5/4 4/3 10/7 3/2 5/3 30/19 12/7 15/8
+
+#African  Xylophone from W Africa  In cents
+AfricanXylophone: 60 261.63 DIATONIC CENTS  0 152 287 533 724 890 1039 
+
+#Arxytas Enh  Arxytas' Enharmonic   Equal Tetrachords: 
+Arxytas:  60 261.63 DIATONIC TETRACHORD 28/27 36/35 5/4 
+
+#Arxytas X  Arxytas' Chromatic  Equal tetrachords: 
+ArxytasX:  60 261.63 DIATONIC TETRACHORD 28/27 243/224 32/27 
+
+#Baghdad 22  Chromatic scale from Lute of Bhagdad, 22 degrees per
+#     octave
+
+#Blue Farabi   Another tuning from Al Farabi, c700 AD   
+BlueFarabi: 60 261.63 DIATONIC RATIO 1/1 9/8 45/32 131/90 3/2 15/8 31/16 
+
+
+#Bouzourk 8  Medieval Arabic scale of eight tones; on white keys
+#     and Gb   Other black keys are added graces
+
+#Bulgarian  Another bagpipe tuning, observed   ALL
+
+#Byzan Palace  Byzantine Palace Mode  Mixed 4chords: lower 18/17,
+#     9/7; upper 18/11,9/5 WHITE
+
+#ByzanPalace:  60 261.63 DIATONIC TETRACHORD 
+
+
+#Carlos alpha From Wendy Carlos: 15,385 equal temperament, which
+#     gives just thirds and fifths  and out of tune octaves! 5/4
+#     at 5 steps, 3/2 at 9
+
+#Ch flute  Chinese flute, observed 1885; from Ellis  'E' and 'B'
+#     are additions to basic pentatonic WHITE
+
+#Chin bronze  A scale found on an ancient Chinese bronze
+#     instrument from the 3rd century BC   
+ChinBronze: 60 261.63 DIATONIC RATIO 1/1 8/7 6/5 5/4 4/3 3/2 5/3 
+
+#Ch Sheng  Observed tuning from chinese sheng or mouth organ   In
+#     cents 
+ChSeng: 60 261.63 DIATONIC CENTS 0 210 338 498 715 908 1040 
+
+#De Caus  A 12-tone just tuning by the 17th c inventor and
+#     philosopher Salomon de Caus  
+DeCaus: 60 261.63 CHROMATIC RATIO 1/1 126/121 10/9 75/64 5/4 4/3 25/18 3/2 25/16 5/3 16/9 15/8 
+
+#Didymus dia  A just diatonic; each tetrachord  
+Didymus: 60 261.63 DIATONIC TETRACHORD 9/8 10/9 16/15
+
+#Didymus X  Didymus' Chromatic  Equal Tetrachords of 
+DidymusX:  60 261.63 DIATONIC TETRACHORD 21/21 256/243 6/5 
+
+#Dowland  John Dowland's Lute Tuning (17th century)   A well-
+#     tempered twelve tone scale
+
+#12-Equal  PLAIN OLD 12 TONE ET
+Equal12: 60 261.63 CHROMATIC EQUAL 12
+
+#10-equal   Probably the worst sounding scale in the world, from a
+#     just intonation point of  view
+Equal10: 60 261.63 CHROMATIC EQUAL 10
+
+#11-equal  Mind bender
+Equal11: 60 261.63 CHROMATIC EQUAL 11
+
+#13-equal  13 Equal temperament  Extremely dissonant
+Equal13: 60 261.63 CHROMATIC EQUAL 13
+
+#14-equal   Extension of Thai-style 7-et
+Equal14: 60 261.63 CHROMATIC EQUAL 14
+
+#15-equal   Harmonies you've never heard
+Equal15: 60 261.63 CHROMATIC EQUAL 15
+
+#16-equal  Blackwood: " Best thought of as four intertwined
+#     diminished seventh chords"
+Equal16: 60 261.63 CHROMATIC EQUAL 16
+
+#17-equal  Good minor 7th chords; Make diatonic scales with 3-
+#     degree wholetones and   1-degree halftones
+Equal17: 60 261.63 CHROMATIC EQUAL 17
+
+#18-equal  Blackwood: " Three intertwined wholetone scales"   No
+#     good fifths
+Equal18: 60 261.63 CHROMATIC EQUAL 18
+
+#19-equal  A usable one for harmonic music  Nearly just minor and
+#     major thirds
+Equal19: 60 261.63 CHROMATIC EQUAL 19
+
+#20-equal  Make some strange modes by combining 4-et and 5et
+#     scales
+Equal20: 60 261.63 CHROMATIC EQUAL 20
+
+#31-equal  A very good equal temperament, similar to meantone with
+#     just 5/4 ( 10 steps),  and nearly just 7/6 (7 steps), 8/7 (
+#     6 steps ) and 7/4 ( 25 steps)
+Equal31: 60 261.63 CHROMATIC EQUAL 31
+
+#Erato Enh  Eratosthenes Enharmonic  Ancient greek = tetrachords;
+#     NOT a just scale WHITE
+
+#Farabi chrom Al farabi's syntonic chromatic, c700 AD  with equal
+#     tetrachords 
+Farabi:  60 261.63 DIATONIC TETRACHORD 16/15 15/14 7/6 
+
+#Farabi X  Al Farabi's Chromatic c700 AD   
+FarabiX: 60 261.63 DIATONIC RATIO 1/1 9/8 27/20 729/512 3/2 9/5 19/10 
+
+
+#Golden 5  Based on the golden section, these ratios are all
+#     successive terms in the   fibonacci series: relative ratios
+Golden5: 60 261.63 PENTATONIC RELATIVE 5/4 21/20 8/7 13/12   #16/13 
+
+
+#Helmholz  Just greek-style equal tetrachord scale proposed by
+#     Hermann Helmholz, 1877   
+Helmholz: 60 261.63 DIATONIC TETRACHORD 16/15 75/64 16/15 
+
+#Hhidjazi  Medieval arabic scale  
+Hhidjazi: 60 261.63 DIATONIC RATIO 1/1 65536/59049 32/27 4/3  262144/177147 32768/19683 16/9 
+
+#Hhosaini  Medieval arabic scale   
+Hhosaini: 60 261.63 DIATONIC RATIO 1/1 65536/59049 32/27 4/3 262144/177147 27/16 16/9 
+
+#Hira II-5  Another Japanese pentatonic koto scale   
+Hira11-5: 60 261.63 PENTATONIC RATIO 1/1 9/8 6/5 3/2 8/5 
+
+#Hiradoshi 5  Observed Japanese pentatonic koto scale  In cents 0
+Hiradoshi5: 60 261.63 PENTATONIC CENTS 0 185 337 683 790 
+
+#Indian 22  Just chromatic scale from India of 22 degrees or
+#     srutis  Used to form 7tone 6tone and 5tone modes
+
+#Indian A  One observed indian mode  In cents: 
+IndianA: 60 261.63 DIATONIC CENTS 0 183 342 533 685 871 1074 
+
+#Indian B  Observed Indian mode  In cents 
+IndianB: 60 261.63 DIATONIC CENTS 0 183 271 534 686 872 983 
+
+#Indian C  Observed Indian mode  In cents 
+IndianC: 60 261.63 DIATONIC CENTS 0 111 314 534 686 828 1017
+
+#Indian D  Observed indian mode  In cents 
+IndianD: 60 261.63 DIATONIC CENTS 0 183 342 533 685 871 1074 
+
+#Indian E  Observed Indian Mode   In cents 
+IndianE: 60 261.63 DIATONIC CENTS 0 90 366 493 707 781 1080 
+
+#Ishfahan 8  Medieval Arabic scale of eight tones; on white keys
+#     and Bb   Other black keys are added graces
+
+#Joyous 6  From Lou Harrison's " Joyous Procession"; 6 tones on
+#     keys C D E F# G# A#   
+Joyous6: 60 261.63 WHOLE RATIO 1/1 9/8 5/4 3/2 5/3 15/8 
+
+
+#Korea 5  According to Lou Harrison, called " the Delightful" in
+#     Korea   
+Korea5: 60 261.63 PENTATONIC RATIO 1/1 9/8 4/3 3/2 9/5
+
+#Land's Bag  Scottish highland bagpipe, reported by Land
+#     Amazingly similar to Arabic Zalzal tuning WHITE
+
+#Lou mid 2  A variant on the scale above  
+LouMid2: 60 261.63 DIATONIC RATIO 1/1 9/8 6/5 4/3 3/2 12/7 9/5 
+
+#Lou's middle A 'middle' mode, from Lou Harrison, with 'half-
+#     steps' in the   middle of 4chrds: 
+LouMiddle: 60 261.63 DIATONIC RATIO 1/1 9/8 6/5 4/3 3/2 5/3 7/4 
+
+#LPL 1-5  From Lou Harrison, a pelog style pentatonic   Relative
+#     intervals: 
+LPL1-5: 60 261.63 PENTATONIC RELATIVE 16/15 9/8 5/4 16/15 #5/4 
+
+#LPL 2-5  From Lou Harrison, a pelog style pentatonic   Relative
+#     intervals: BLACK
+LPL1-5: 61 261.63 PENTATONIC RELATIVE 12/11 11/10 5/4 16/15 #5/4
+
+#LPL 3-5  From Lou Harrison, a pelog style pentatonic   Relative
+#     intervals:  BLACK
+LPL3-5: 60 261.63 PENTATONIC RELATIVE 28/27 9/7 9/8 28/27 #9/7
+
+#LPL 4-5  From Lou Harrison, a pelog style pentatonic   Relative
+#     intervals:  BLACK
+LPL4-5: 60 261.63 PENTATONIC RELATIVE 16/15 9/8 5/4 5/4 #16/15
+
+
+#Minor 1-5  From Lou Harrison, a symmetrical pentatonic with minor
+#     thirds   Relative intervals: 
+Minor1-5: 60 261.63 PENTATONIC RELATIVE 6/5 10/9 9/8 10/9 #6/5 
+
+#Minor 2-5  From Lou Harrison, a pentatonic with minor thirds
+#     Relative intervals: 
+Minor1-5: 60 261.63 PENTATONIC RELATIVE 8/7 7/6 6/5 10/9 #9/8 
+
+#Mixed 1-5  A " Mixed type" pentatonic, from Lou Harrison
+#     Relative intervals: 
+Mixed1-5: 60 261.63 PENTATONIC RELATIVE 6/5 10/9 9/8 5/4 #16/15 
+
+#Mixed 2-5  A " Mixed type" pentatonic, from Lou Harrison
+#     Relative intervals:
+Mixed2-5: 60 261.63 PENTATONIC RELATIVE 6/5 15/14 7/6 16/15 #5/4 
+
+#Mixed 3-5  A " Mixed type" pentatonic, from Lou Harrison
+#     Relative intervals:  BLACK
+#
+Mixed3-5: 60 261.63 PENTATONIC RELATIVE 15/14 7/6 6/5 8/7 #7/6
+
+#Mixed 4-5  A " Mixed type" pentatonic, from Lou Harrison
+#     Relative intervals: 
+Mixed4-5: 60 261.63 PENTATONIC RELATIVE 12/11 11/10 5/4 13/12 #16/13 
+
+
+#Old Aeolic  Ancient Greek aeolic; 
+OldAeolic: 60 261.63 DIATONIC RATIO 1/1 9/8 32/27 4/3 3/2 128/81 16/9 
+
+
+#Old Ionic  Ancient greek Ionic; 
+#     WHITE
+OldIonic: 60 261.63 DIATONIC RATIO 1/1 9/8 5/4 4/3 3/2 5/3 9/5
+
+#Old Phrygian Ancient greek; = 4chords 
+OldPhrygian:  60 261.63 DIATONIC TETRACHORD 10/9 6/5 4/3  
+
+#Olympos 5  Scale of ancient greek flutist Olympos, 6th c BC as
+#     reported by Partch   Pentatonic: 
+Olympos5: 60 261.63 PENTATONIC RATIO 1/1 16/15 4/3 64/45 16/9
+
+
+#Overtones  Not really a scale, but the overtone series through 12
+#     shifted into one octave   ALL
+
+#P and S  Two observed Javanese scales: Pelog on white, Slendro on
+#     black  In cents: Pelog 0 137 446 575 687 820 1098 Slendro 0
+#     228 484 728 960
+Pelog: 60 261.63 DIATONIC CENTS  0 137 446 575 687 820 1098
+
+#Pelog USA  Modern Pelog designed by Dan Schmidt and used by
+#     Berkeley Gamelan WHITE   
+PelogUSA: 60 261.63 DIATONIC RATIO 1/1 11/10 6/5 7/5 3/2 8/5 9/5 
+
+#Port Bag 1  Portuguese bagpipe tuning  approx 
+PortBag1: 60 261.63 DIATONIC RATIO 1/1 14/13 81/68 32/25 36/25 128/81 7/4 
+
+#Port Bag 2  An observed bagpipe tuning from Mirada do Dorro,
+#     Portugal  
+PortBag2: 60 261.63 CHROMATIC RATIO 1/1 21/20 14/13 32/27 17/14 21/16 64/45 3/2 25/16 59/32 21/10  25/11
+
+#Port Bag 3  An observed bagpipe tuning from Moimento, Portugal
+#     A full 12-tone scale ALL
+
+
+#Prime 5  What Lou Harrison calls " the Prime Pentatonic"; A widely used scale   
+Prime5: 60 261.63 PENTATONIC RATIO 1/1 9/8 5/4 3/2 5/3
+
+#Ptol Ditone  Pytagorean Diatonic = 4chords 
+#     This scale is the foundation of most European and Arabic
+#     music and has many name
+PtolDitone: 60 261.63 DIATONIC TETRACHORD 256/243 9/8 9/8 
+
+#Ptol homalon " Equable", from equal string division 
+#     relative intervals up: 
+PtolHomalon: 60 261.63 DIATONIC RATIO 12/11 11/10 10/9 9/8 12/11 11/10 10/9
+
+#Ptol malakon Diatonic malakon, or soft; = tetrachords 
+PtolMalakon: 60 261.63 DIATONIC TETRACHORD 21/20 10/9 8/7 
+
+#Ptol Tonaion Diatonic w/ = tetrachords Also known  as Archyytas' Diatonic 
+PtolTonaion: 60 261.63 DIATONIC TETRACHORD 28/27 8/7 9/8  
+
+#Ptol X-soft  Ptolemy's chromatic malakon:   Equal tetrachords:
+PtolXSoft:  60 261.63 DIATONIC TETRACHORD 28/27 15/14 6/5 
+
+#Ptol X-syn  Ptolemy's Chromatic Syntonon  Equal Tetrachords of
+PtolXsyn:  60 261.63 DIATONIC TETRACHORD 22/21 12/11 7/6 
+
+#Rast  Medieval arabic scale   
+Rast: 60 261.63 DIATONIC RATIO 1/1 9/8 8192/6561 4/3 3/2 32768/19683 16/9 
+
+#Rahawi  Medieval arabic scale   
+Rahowi: 60 261.63 DIATONIC RATIO 1/1 65536/59049 8192/6561 4/3 262144/177147 128/81 16/9 
+
+#Raja 6  A folk scale from Rajasthan, India; 6 tones on keys C D E
+#     F# G# A#   
+Raja6: 60 261.63 WHOLE RATIO 1/1 9/8 5/4 4/3 3/2 15/8 
+
+#Scot Bag 1  Like most bagpipe tunings, includes intervals
+#     involving 11  
+ScotBag1: 60 261.62 DIATONIC RATIO 1/1 10/9 5/4 15/11 40/27 10/6 11/6 
+
+#Scot Bag 2  Interesting: 
+ScotBag2: 60 261.62 DIATONIC RATIO 1/1 10/9 11/9 4/3 3/2 18/11 9/5 
+
+#Scot bag 3  approx   An observed seven tone scale 
+ScotBag3: 60 261.62 DIATONIC RATIO 1/1 9/8 5/4 11/8 3/2 27/16 11/6 
+
+#Septro 1-5  A slendro type pentatonic which is based on intervals
+#     of 7; from Lou Harrison    ( relative intervals ) 
+Septro1-5: 60 261.63 PENTATONIC RELATIVE 8/7 9/8 7/6 8/7 #7/6
+
+#Septro 2-5  A slendro type pentatonic which is based on intervals
+#     of 7; from Lou Harrison    ( relative intervals ) 
+Septro2-5: 60 261.63 PENTATONIC RELATIVE 7/6 8/7 9/8 7/6 #8/7
+
+#Septro 4-5  A slendro type pentatonic which is based on intervals
+#     of 7; from Lou Harrison    ( relative intervals ) 
+Septro4-5: 60 261.63 PENTATONIC RELATIVE 9/8 32/27 9/8 8/7 #7/6
+
+#Singapore  An observed xylophone tuning from Singapore  In cents:
+Singapore: 60 261.63 DIATONIC CENTS 0 187 356 526 672 856 985 
+
+Solemn6: 60 261.63 WHOLE RATIO 1/1 6/5 4/3 3/2 8/5 9/5
+
+#Soft diaton  From lou harrison, a soft diatonic   
+SoftDiaton: 60 261.63 DIATONIC RATIO 1/1 21/20 6/5 4/3 3/2 63/40 9/5 
+
+#Solemn 6  From Lou Harrison's " Solemn Procession"; A 6 tones on
+#     keys C D E F# G# A#   
+
+Slendro: 60 261.63 PENTATONIC CENTS 0 228 484 728 960
+
+#Some Other  From Other Music, San Francisco; WHITE: Ptolemy's
+#     intense diatonic; BLACK: 7's  
+SomeOther: 60 261.63 CHROMATIC RATIO 1/1 15/14 9/8 7/6 5/4 4/3 7/5 3/2 14/9 5/3 7/4 15/8 
+
+#S Pacific  Observed south pacific xylophone tuning   Pentatonic
+#     In cents 
+SPacific: 60 261.63 PENTATONIC CENTS 0 202 370 685 903 
+
+#Terpander 6  One modern guess at the scale of the ancient greek
+#     poet Terpander, 6th c BC  
+#     on keys C D E F# G# A#
+Terpander6: 60 261.63 WHOLE RATIO 1/1 11/10 11/9 11/8 11/7 11/6 
+
+
+#Thai  Observed scale from Thailand  In cents 
+Thai: 60 261.63 DIATONIC CENTS 0 129 277 508 726 771 1029 
+
+#Tox Enh  Aristoxenes' Enharmonic   Equal tetrachords; Not a just
+#     intoned scale WHITE
+
+#Tox X-soft  Aristoxenes Chromatic Malakon, or soft tuning 
+
+#Yugo bag  One observed Yugoslavian bagpipe tuning   ALL
+
+
+#Zenkouleh  Medieval arabic scale   
+Zenkouleh: 60 261.63 WHOLE RATIO 1/1 9/8 8192/6561 4/3 262144/177147 32768/19683 
+
+#Zalzal  Modern Arabic scale  
+Zalzal: 60 261.63 DIATONIC RATIO 1/1 9/8 27/22 4/3 3/2 18/11 16/9 
+
+#Zirafkend 8  Medieval Arabic scale of eight tones; on white keys
+#     and Bb   Other black keys are added graces
+#####
+
+
+
+
+
